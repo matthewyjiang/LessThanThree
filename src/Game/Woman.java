@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
+import Game.Game.GameState;
 import Utilities.Entity;
+import Utilities.GameEngine;
 
 public class Woman extends Entity {
 
@@ -17,11 +20,20 @@ public class Woman extends Entity {
 	public static Game game;
 
 	private String name;
+	private int sceneIndex;
 
-	public Woman(double x, double y, String name) {
+	public Woman(double x, double y, String name, int sceneIndex) {
 		super(x, y, WIDTH, HEIGHT);
-
+		this.sceneIndex = sceneIndex;
 		this.name = name;
+	}
+
+	public int getSceneIndex() {
+		return sceneIndex;
+	}
+
+	public void setSceneIndex(int sceneIndex) {
+		this.sceneIndex = sceneIndex;
 	}
 
 	public String getName() {
@@ -50,13 +62,15 @@ public class Woman extends Entity {
 		}
 		win.draw(this);
 		win.setFont(tag);
-		
+
 		FontMetrics metrics = win.getFontMetrics(tag);
 		int BUFFER = 5;
 		int h = metrics.getHeight();
 		int w = metrics.stringWidth(this.getName());
 
 		win.drawString(this.getName(), (int) this.getCenterX() - w / 2, (int) this.getMaxY() + BUFFER + h);
+
+		
 	}
 
 }
