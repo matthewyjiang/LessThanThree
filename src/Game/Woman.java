@@ -55,6 +55,8 @@ public class Woman extends Entity {
 	public void draw(Graphics2D win) {
 		win.setColor(Color.MAGENTA);
 		win.fill(this);
+		
+		//show highlight
 		if (this.highlighted()) {
 			win.setColor(Color.WHITE);
 		} else {
@@ -63,6 +65,8 @@ public class Woman extends Entity {
 		win.draw(this);
 		win.setFont(tag);
 
+		//draw nametag below character, centered
+		
 		FontMetrics metrics = win.getFontMetrics(tag);
 		int BUFFER = 5;
 		int h = metrics.getHeight();

@@ -35,10 +35,10 @@ public class Button extends Rectangle2D.Double {
 	public void autoFormatText(Graphics2D win) {
 		int line = 0;
 		FontMetrics fm = win.getFontMetrics(font);
-		for (int i = 0; i < lines.length; i++) {
+		for (int i = 0; i < lines.length; i++) { //reset lines
 			lines[i] = new String("");
 		}
-		for (char c : text.toCharArray()) {
+		for (char c : text.toCharArray()) { //add to lines until full, then overflow
 			if (this.lines[line] != null) {
 				this.lines[line] += c;
 				if (fm.stringWidth(this.lines[line] + "-") >= this.getWidth() - 2 * BUFFERX) {
