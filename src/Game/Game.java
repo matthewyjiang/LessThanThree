@@ -4,11 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
-import Game.Game.GameState;
 import Utilities.Button;
 import Utilities.GameEngine;
 import Utilities.Vector;
@@ -23,6 +22,8 @@ public class Game extends GameEngine {
 	public int sceneSelect = 0;
 
 	public Button[] buttons;
+	
+	public BufferedImage[] images;
 
 	Vector camCoords = new Vector(0, 0);
 	final double camFollowIntensity = 0.03;
@@ -30,17 +31,22 @@ public class Game extends GameEngine {
 	public enum GameState {
 		MENU, WORLD, SCENE
 	};
+	
+	
 
 	GameState gamestate = GameState.WORLD;
 
 	public Game() {
 		player = new Player(300, 300, 20, 30);
+		
+		images = new BufferedImage[1];
+		images[0] = GameEngine.scale(addImage("Images/claire.jpg"), 300, 400);
 
 		women = new Woman[1];
 		women[0] = new Woman(100, 100, "Claire", 0);
 
 		scenes = new Scene[1];
-		scenes[0] = new Scene("Claire's Dialogue");
+		scenes[0] = new Scene("Claire's Dialogue", images[0]);
 
 		buttons = new Button[1];
 
