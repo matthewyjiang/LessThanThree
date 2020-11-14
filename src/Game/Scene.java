@@ -5,19 +5,26 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import Utilities.Button;
 
 public class Scene {
+	
+	static Game game;
 
 	private String label;
 	public Button[] buttons;
 	
 	public BufferedImage photo;
+	
+	int index = 0;
 
 	public Font labelFont = new Font("Trebuchet MS", Font.BOLD, 24);
+	
+	public ArrayList<String> dialogue;
 
-	public Scene(String label, BufferedImage pic) {
+	public Scene(String label, BufferedImage pic, String starter) {
 
 		this.label = label;
 
@@ -34,14 +41,15 @@ public class Scene {
 		for (int i = 0; i < buttons.length; i++) {
 			buttons[i].setFont(buttonFont.deriveFont(18.0f));
 		}
-
+		
 		buttons[0].setText(
 				"This is a really long string to test my auto formatting function. It adds characters to each line until it runs out of space, and then moves to the next line.");
 		buttons[1].setText(
 				"This is another really long string to test this function.");
 		
-		
 		photo = pic;
+		
+		dialogue = game.getDialogue(game.dialogue, starter);
 	}
 
 	public void draw(Graphics2D win) {
@@ -50,6 +58,8 @@ public class Scene {
 		FontMetrics fm = win.getFontMetrics(labelFont);
 		win.drawString(label, 20, 20 + fm.getHeight());
 		win.drawImage(photo, 30, 60, null);
+		
+		win.drawString(dialogue.get(index), 400, 20 + fm.getHeight());
 
 		for (Button b : buttons) {
 			if (b != null) {

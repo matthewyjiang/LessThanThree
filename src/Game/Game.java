@@ -7,6 +7,10 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import Utilities.Button;
 import Utilities.GameEngine;
@@ -22,7 +26,7 @@ public class Game extends GameEngine {
 	public int sceneSelect = 0;
 
 	public Button[] buttons;
-	
+
 	public BufferedImage[] images;
 
 	Vector camCoords = new Vector(0, 0);
@@ -31,14 +35,20 @@ public class Game extends GameEngine {
 	public enum GameState {
 		MENU, WORLD, SCENE
 	};
-	
-	
+
+	File dialogue;
 
 	GameState gamestate = GameState.WORLD;
 
 	public Game() {
+		Button.game = this;
+		Woman.game = this;
+		Scene.game = this;
+
 		player = new Player(300, 300, 20, 30);
-		
+
+		dialogue = new File("src/Game/Assets/dialogue_claire.txt");
+
 		images = new BufferedImage[1];
 		images[0] = GameEngine.scale(addImage("Images/claire.jpg"), 300, 400);
 
@@ -46,18 +56,41 @@ public class Game extends GameEngine {
 		women[0] = new Woman(100, 100, "Claire", 0);
 
 		scenes = new Scene[1];
-		scenes[0] = new Scene("Claire's Dialogue", images[0]);
+		scenes[0] = new Scene("Claire's Dialogue", images[0], "CLAIRE'S DIALOGUE");
 
 		buttons = new Button[1];
 
-		Button.game = this;
-		Woman.game = this;
 	}
 
 	public static void main(String[] args) {
 		Game game = new Game();
 		game.setBackground(Color.BLACK);
 		game.start();
+	}
+
+	public ArrayList<String> getDialogue(File file, String StartLine) {
+
+		Scanner scan;
+		try {
+			scan = new Scanner(file);
+			ArrayList<String> result = new ArrayList<String>();
+			String line = "";
+			while (!scan.nextLine().equals(StartLine)) {
+			}
+			scan.nextLine();
+			while (!line.equals("ENDSCAN")) {
+				if (line != null && line != "") {
+					result.add(line);
+				}
+				line = scan.nextLine();
+			}
+			return result;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	@Override
@@ -83,6 +116,12 @@ public class Game extends GameEngine {
 			if (KeysTyped[KeyEvent.VK_ESCAPE]) {
 				gamestate = GameState.WORLD;
 
+			}
+			if (KeysTyped[KeyEvent.VK_SPACE]) {
+				if (scenes[sceneSelect].index < scenes[sceneSelect].dialogue.size() - 1) {
+					scenes[sceneSelect].index++;
+				}
+				KeysTyped[KeyEvent.VK_SPACE] = false;
 			}
 			break;
 		}
